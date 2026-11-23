@@ -1,0 +1,23 @@
+workflows:
+  android-debug:
+    name: Mutebi Isaac AI - Android Debug
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+
+    scripts:
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+
+      - name: Download Gradle
+        script: |
+          curl -L https://services.gradle.org/distributions/gradle-8.11.1-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp
+
+      - name: Build Android debug APK
+        script: |
+          /tmp/gradle-8.11.1/bin/gradle --no-daemon assembleDebug
+
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
+      - app/build/outputs/**/*.apk
