@@ -1,6 +1,7 @@
+
 workflows:
   android-debug:
-    name: Mutebi Isaac AI - Android Debug
+    name: ISAAC-AI Android APK
     max_build_duration: 120
     instance_type: mac_mini_m2
 
@@ -14,10 +15,9 @@ workflows:
           curl -L https://services.gradle.org/distributions/gradle-8.11.1-bin.zip -o /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /tmp
 
-      - name: Build Android debug APK
+      - name: Build Android APK
         script: |
-          /tmp/gradle-8.11.1/bin/gradle --no-daemon assembleDebug
+          /tmp/gradle-8.11.1/bin/gradle --no-daemon --stacktrace assembleDebug
 
     artifacts:
       - app/build/outputs/apk/debug/*.apk
-      - app/build/outputs/**/*.apk
