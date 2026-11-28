@@ -2,83 +2,71 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:background="#0B0B0B"
+    android:padding="6dp">
 
-    <!-- WELCOME AREA -->
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="center" android:text="Welcome"
-        android:textColor="#D4AF37" android:textSize="42sp" android:textStyle="bold" />
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="center" android:text="Your AI Assistant is Ready"
-        android:textColor="#FFFFFF" android:textSize="16sp" />
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="center" android:text="Ready to assist you anytime, 24/7"
-        android:textColor="#D4AF37" android:textSize="12sp" android:layout_marginTop="10dp" />
+    <!-- 1. WORKING SPACE - THIS IS WHERE EVERYTHING HAPPENS -->
+    <FrameLayout
+        android:id="@+id/workingSpace"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:background="@drawable/gold_border_thick"
+        android:padding="10dp">
 
-    <!-- YOU BUBBLE -->
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="end" android:text="You: Hello Isaac"
-        android:background="#D4AF37" android:textColor="#FFFFFF"
-        android:textSize="16sp" android:textStyle="bold"
-        android:padding="12dp" android:layout_marginTop="15dp" />
-
-    <!-- TASK AREA - AI LEFT + LIVING ROOM RIGHT -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="200dp"
-        android:orientation="horizontal" android:layout_marginTop="10dp">
-
-        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1" android:background="#1A1A1A"
-            android:orientation="vertical" android:padding="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="AI conversation" android:textColor="#D4AF37" android:textSize="12sp" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="AI: Welcome! I am your AI assistant created by Mutebi Isaac. How can I help you?"
-                android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold" android:layout_marginTop="8dp" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="12:55 AM" android:textColor="#888888" android:textSize="11sp" />
+        <LinearLayout
+            android:id="@+id/tradingView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WORKING SPACE" android:textColor="#FFD700" android:textSize="16sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Balance: $12,450.32  +$423.50" android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold" />
+            <TextView android:id="@+id/workingSpaceStatus" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:text="READY BOSS - SAY ANY APP" android:textColor="#00FF00" android:textSize="20sp" android:textStyle="bold" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" android:text="BUY" android:textStyle="bold" android:backgroundTint="#D4AF37" android:textColor="#000000" />
+                <Button android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" android:text="SELL" android:textStyle="bold" android:backgroundTint="#00C853" android:textColor="#FFFFFF" />
+            </LinearLayout>
         </LinearLayout>
+    </FrameLayout>
 
-        <FrameLayout android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1" android:layout_marginStart="8dp">
-            <ImageView android:id="@+id/isaacImage"
-                android:layout_width="match_parent" android:layout_height="match_parent"
-                android:src="@drawable/isaac_living_room" android:scaleType="centerCrop" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Mutebi Isaac" android:textColor="#D4AF37" android:textStyle="bold" android:padding="8dp" />
-        </FrameLayout>
+    <!-- 2. MESSAGE BOX + LIVING ROOM - YOUR REAL PICTURE -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="2.5" android:orientation="horizontal" android:paddingTop="6dp">
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="2" android:orientation="vertical" android:background="@drawable/gold_border" android:padding="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AI conversation" android:textColor="#FFD700" android:textSize="14sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="You: Isaac open trading" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AI: Yes boss trading is open!" android:textColor="#FFD700" android:textSize="14sp" android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:background="@drawable/gold_border" android:gravity="center" android:padding="6dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mutebi Isaac" android:textColor="#FFD700" android:textSize="13sp" android:textStyle="bold" />
+            <ImageView android:id="@+id/isaacLivingRoomImage" android:layout_width="80dp" android:layout_height="80dp" android:scaleType="centerCrop" android:src="@drawable/isaac_living_room" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Living Room" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- APPS AREA -->
-    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp">
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
-            <TextView android:text="👥 Contacts" android:textColor="#D4AF37" android:padding="10dp" android:textSize="16sp"/>
-            <TextView android:text="💬 WhatsApp" android:textColor="#D4AF37" android:padding="10dp" android:textSize="16sp"/>
-            <TextView android:text="🌐 Browser" android:textColor="#D4AF37" android:padding="10dp" android:textSize="16sp"/>
-            <TextView android:text="📷 Instagram" android:textColor="#D4AF37" android:padding="10dp" android:textSize="16sp"/>
-            <TextView android:text="📝 Notes" android:textColor="#D4AF37" android:padding="10dp" android:textSize="16sp"/>
-            <TextView android:text="🎵 Music" android:textColor="#D4AF37" android:padding="10dp" android:textSize="16sp"/>
-            <TextView android:text="📌 Pinterest" android:textColor="#D4AF37" android:padding="10dp" android:textSize="16sp"/>
+    <!-- 3. APPS ROW - NO EMOJIS, ONLY TEXT -->
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="60dp" android:layout_marginTop="6dp" android:background="@drawable/gold_border">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center">
+            <TextView android:layout_width="60dp" android:layout_height="50dp" android:gravity="center" android:text="CAMERA" android:textColor="#FFD700" android:textSize="12sp" android:textStyle="bold" />
+            <TextView android:layout_width="70dp" android:layout_height="50dp" android:gravity="center" android:text="WHATSAPP" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold" />
+            <TextView android:layout_width="60dp" android:layout_height="50dp" android:gravity="center" android:text="TRADING" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold" />
+            <TextView android:layout_width="60dp" android:layout_height="50dp" android:gravity="center" android:text="CALL" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold" />
+            <TextView android:layout_width="60dp" android:layout_height="50dp" android:gravity="center" android:text="MUSIC" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold" />
+            <TextView android:layout_width="60dp" android:layout_height="50dp" android:gravity="center" android:text="WEB" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold" />
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- TYPE HERE -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginTop="10dp">
-        <EditText android:id="@+id/typeHere" android:layout_width="0dp" android:layout_height="50dp"
-            android:layout_weight="1" android:hint="Type here" android:textColorHint="#D4AF37"
-            android:padding="12dp" android:textColor="#FFFFFF" android:background="#222222" />
-        <TextView android:layout_width="50dp" android:layout_height="50dp" android:text="🎤"
-            android:gravity="center" android:textSize="24sp" />
+    <!-- 4. TYPE HERE + MIC - NO EMOJI -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="60dp" android:orientation="horizontal" android:paddingTop="6dp">
+        <EditText android:id="@+id/typeHere" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:hint="Type here..." android:textStyle="bold" android:textColorHint="#D4AF37" android:textColor="#FFFFFF" android:background="@drawable/gold_border" android:padding="10dp" />
+        <Button android:id="@+id/micButton" android:layout_width="60dp" android:layout_height="match_parent" android:text="MIC" android:textStyle="bold" android:backgroundTint="#D4AF37" android:textColor="#000000" />
     </LinearLayout>
 
-    <!-- BOTTOM NAV -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginTop="15dp">
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Home" android:gravity="center" android:textColor="#D4AF37" android:textSize="18sp" />
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Chart" android:gravity="center" android:textColor="#D4AF37" android:textSize="18sp" />
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="History" android:gravity="center" android:textColor="#D4AF37" android:textSize="18sp" />
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Settings" android:gravity="center" android:textColor="#D4AF37" android:textSize="18sp" />
+    <!-- 5. BOTTOM MENU -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="55dp" android:orientation="horizontal" android:background="@drawable/gold_border" android:layout_marginTop="6dp">
+        <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="Home" android:textColor="#FFD700" android:textStyle="bold" />
+        <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="Chart" android:textColor="#FFFFFF" android:textStyle="bold" />
+        <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="History" android:textColor="#FFFFFF" android:textStyle="bold" />
+        <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="Settings" android:textColor="#FFFFFF" android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
