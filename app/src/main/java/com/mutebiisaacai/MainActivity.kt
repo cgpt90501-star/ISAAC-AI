@@ -2,8 +2,6 @@ package com.mutebi.isaacai
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,7 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -52,7 +49,6 @@ private val Green = Color(0xFF39E600)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent { FinalApp() }
     }
 }
@@ -63,14 +59,12 @@ fun FinalApp() {
     var selectedTab by remember { mutableStateOf("Home") }
     var monitorOpen by remember { mutableStateOf(false) }
 
-    BackHandler(enabled = monitorOpen) { monitorOpen = false }
-
-    Box(modifier = Modifier.fillMaxSize().background(Black).safeDrawingPadding()) {
+    Box(modifier = Modifier.fillMaxSize().background(Black).padding(top = 30.dp)) {
         Column(modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp, vertical = 8.dp)) {
 
-            // UPPER WORKING SPACE / MONITOR - DO NOT CHANGE
+            // UPPER WORKING SPACE / MONITOR - SAME, NO CHANGE
             Column(
-                modifier = Modifier.fillMaxWidth().weight(1.30f).clip(RoundedCornerShape(25.dp)).background(Color(0xFF090909)).border(1.5.dp, Gold, RoundedCornerShape(25.dp)).clickable { monitorOpen = true }.padding(12.dp),
+                modifier = Modifier.fillMaxWidth().weight(1.3f).clip(RoundedCornerShape(25.dp)).background(Color(0xFF090909)).border(1.5.dp, Gold, RoundedCornerShape(25.dp)).clickable { monitorOpen = true }.padding(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -93,7 +87,6 @@ fun FinalApp() {
 
             Spacer(Modifier.height(9.dp))
 
-            // USER MESSAGE
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Column(horizontalAlignment = Alignment.End) {
                     Box(modifier = Modifier.fillMaxWidth(0.76f).clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp, bottomStart = 18.dp, bottomEnd = 4.dp)).background(Color(0xFFB9914B)).padding(14.dp)) {
@@ -105,7 +98,6 @@ fun FinalApp() {
 
             Spacer(Modifier.height(9.dp))
 
-            // AI CHAT AND LIVING ROOM
             Row(modifier = Modifier.fillMaxWidth().weight(0.85f), horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                 Column(modifier = Modifier.weight(1.35f).fillMaxHeight().clip(RoundedCornerShape(21.dp)).background(Panel).border(1.dp, DarkGold, RoundedCornerShape(21.dp)).padding(11.dp)) {
                     Text("AI conversation", color = Gold, fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -129,14 +121,12 @@ fun FinalApp() {
 
             Spacer(Modifier.height(10.dp))
 
-            // SEVEN GOLD SHORTCUTS
             Row(modifier = Modifier.fillMaxWidth().height(57.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 GoldIcon("👥"); GoldIcon("☎"); GoldIcon("🧭"); GoldIcon("◎"); GoldIcon("✎"); GoldIcon("⛵"); GoldIcon("℗")
             }
 
             Spacer(Modifier.height(10.dp))
 
-            // MESSAGE INPUT AND GOLD MIC
             Row(modifier = Modifier.fillMaxWidth().height(61.dp), verticalAlignment = Alignment.CenterVertically) {
                 Row(modifier = Modifier.weight(1f).fillMaxHeight().clip(RoundedCornerShape(35.dp)).background(Panel).border(1.5.dp, Gold, RoundedCornerShape(35.dp)).padding(horizontal = 17.dp), verticalAlignment = Alignment.CenterVertically) {
                     Box(modifier = Modifier.weight(1f)) {
@@ -153,7 +143,6 @@ fun FinalApp() {
 
             Spacer(Modifier.height(9.dp))
 
-            // BOTTOM NAVIGATION
             Row(modifier = Modifier.fillMaxWidth().height(57.dp).clip(RoundedCornerShape(17.dp)).background(Panel).border(1.dp, DarkGold, RoundedCornerShape(17.dp)), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
                 listOf("Home", "Chart", "History", "Settings").forEach { tab ->
                     Column(modifier = Modifier.weight(1f).fillMaxHeight().clickable { selectedTab = tab }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
@@ -167,7 +156,6 @@ fun FinalApp() {
             Text("MUTEBI ISAAC AI - VERSION 1.0", color = Gold, fontSize = 11.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
         }
 
-        // FULL-SCREEN WORKING SPACE DOOR
         if (monitorOpen) {
             Column(modifier = Modifier.fillMaxSize().background(Black).padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 Text("★", color = BrightGold, fontSize = 55.sp)
