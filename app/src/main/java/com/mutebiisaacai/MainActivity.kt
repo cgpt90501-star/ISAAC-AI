@@ -1,182 +1,223 @@
-
 package com.mutebi.isaacai
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.weight
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.draw.*
-import androidx.compose.ui.graphics.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.*
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-private val Gold = Color(0xFFE5C477)
-private val LightGold = Color(0xFFFFE6A0)
-private val DarkGold = Color(0xFF98702E)
+private val Gold = Color(0xFFD4AF62)
+private val BrightGold = Color(0xFFFFE5A0)
+private val DarkGold = Color(0xFF80602C)
 private val Black = Color(0xFF050505)
-private val Panel = Color(0xFF101010)
-private val White = Color(0xFFF8F3E8)
+private val Panel = Color(0xFF11100D)
+private val White = Color(0xFFF8F5EE)
+private val Green = Color(0xFF39E600)
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.statusBarColor = android.graphics.Color.BLACK
-        window.navigationBarColor = android.graphics.Color.BLACK
+        enableEdgeToEdge()
 
         setContent {
-            MaterialTheme {
-                FinalApp()
-            }
+            FinalApp()
         }
     }
 }
 
 @Composable
 fun FinalApp() {
-    var text by remember { mutableStateOf("") }
-    var selectedTab by remember { mutableStateOf("Home") }
 
-    Column(
+    var message by remember { mutableStateOf("") }
+    var selectedTab by remember { mutableStateOf("Home") }
+    var monitorOpen by remember { mutableStateOf(false) }
+
+    BackHandler(enabled = monitorOpen) {
+        monitorOpen = false
+    }
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Black)
-            .padding(horizontal = 13.dp, vertical = 8.dp)
+            .safeDrawingPadding()
     ) {
-
-        // =========================
-        // TOP WELCOME SCREEN
-        // =========================
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1.25f),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
 
-            Spacer(Modifier.height(12.dp))
+            // =================================
+            // UPPER WORKING SPACE / MONITOR
+            // =================================
 
-            // GOLD MICROPHONE AND STAR
-            Box(
-                modifier = Modifier.size(78.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "★",
-                    color = LightGold,
-                    fontSize = 39.sp,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .offset(y = 0.dp)
-                )
-
-                Text(
-                    text = "🎙",
-                    fontSize = 55.sp,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                )
-            }
-
-            Spacer(Modifier.height(4.dp))
-
-            Text(
-                text = "Welcome",
-                color = LightGold,
-                fontSize = 43.sp,
-                fontWeight = FontWeight.Normal
-            )
-
-            Text(
-                text = "Your AI Assistant is Ready",
-                color = Gold,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-
-            Spacer(Modifier.height(20.dp))
-
-            // DECORATIVE GOLD EMBLEM
-            Box(
+            Column(
                 modifier = Modifier
-                    .size(100.dp)
+                    .fillMaxWidth()
+                    .weight(1.30f)
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(Color(0xFF090909))
                     .border(
-                        1.dp,
-                        Brush.linearGradient(
-                            listOf(LightGold, DarkGold, LightGold)
-                        ),
-                        CircleShape
-                    ),
-                contentAlignment = Alignment.Center
+                        1.5.dp,
+                        Gold,
+                        RoundedCornerShape(25.dp)
+                    )
+                    .clickable {
+                        monitorOpen = true
+                    }
+                    .padding(12.dp),
+
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
+
+                // STAR AND MICROPHONE
+
                 Box(
-                    modifier = Modifier
-                        .size(76.dp)
-                        .border(1.dp, Gold.copy(alpha = 0.45f), CircleShape),
+                    modifier = Modifier.size(75.dp),
                     contentAlignment = Alignment.Center
                 ) {
+
                     Text(
-                        "✧",
-                        color = Gold,
-                        fontSize = 45.sp
+                        "★",
+                        color = BrightGold,
+                        fontSize = 43.sp,
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    )
+
+                    Text(
+                        "🎙",
+                        fontSize = 48.sp,
+                        modifier = Modifier.align(Alignment.BottomCenter)
                     )
                 }
+
+                Spacer(Modifier.height(5.dp))
+
+                Text(
+                    "Welcome",
+                    color = BrightGold,
+                    fontSize = 39.sp,
+                    fontWeight = FontWeight.Normal
+                )
+
+                Text(
+                    "Your AI Assistant is Ready",
+                    color = Gold,
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(Modifier.height(20.dp))
+
+                // GOLD EMBLEM
+
+                Box(
+                    modifier = Modifier
+                        .size(94.dp)
+                        .border(1.dp, Gold, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Box(
+                        modifier = Modifier
+                            .size(72.dp)
+                            .border(
+                                1.dp,
+                                DarkGold,
+                                CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            "✧",
+                            color = BrightGold,
+                            fontSize = 43.sp
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
+
+                Text(
+                    "Ready to assist you anytime, 24/7",
+                    color = BrightGold,
+                    fontSize = 14.sp
+                )
             }
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(9.dp))
 
-            Text(
-                text = "Ready to assist you anytime, 24/7",
-                color = LightGold,
-                fontSize = 14.sp
-            )
+            // =================================
+            // USER MESSAGE
+            // =================================
 
-            Spacer(Modifier.weight(1f))
-
-            // USER MESSAGE BUBBLE
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
+
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
+
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(0.78f)
-                            .shadow(7.dp, RoundedCornerShape(20.dp))
+                            .fillMaxWidth(0.76f)
                             .clip(
                                 RoundedCornerShape(
-                                    topStart = 20.dp,
-                                    topEnd = 20.dp,
-                                    bottomStart = 20.dp,
+                                    topStart = 18.dp,
+                                    topEnd = 18.dp,
+                                    bottomStart = 18.dp,
                                     bottomEnd = 4.dp
                                 )
                             )
-                            .background(
-                                Brush.horizontalGradient(
-                                    listOf(
-                                        Color(0xFFD5B16B),
-                                        Color(0xFFB98B42)
-                                    )
-                                )
-                            )
-                            .padding(15.dp)
+                            .background(Color(0xFFB9914B))
+                            .padding(14.dp)
                     ) {
+
                         Text(
                             "You: Hello Isaac",
-                            color = Color.White,
+                            color = White,
                             fontSize = 17.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -184,351 +225,419 @@ fun FinalApp() {
 
                     Text(
                         "12:55 AM",
-                        color = Gold.copy(alpha = 0.8f),
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(
-                            end = 12.dp,
-                            top = 4.dp
-                        )
+                        color = Gold,
+                        fontSize = 12.sp
                     )
                 }
             }
 
-            Spacer(Modifier.height(8.dp))
-        }
+            Spacer(Modifier.height(9.dp))
 
-        // =========================
-        // CHAT AND LIVING ROOM
-        // =========================
+            // =================================
+            // AI CHAT AND LIVING ROOM
+            // =================================
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.95f),
-            horizontalArrangement = Arrangement.spacedBy(9.dp)
-        ) {
-
-            // AI CONVERSATION
-            Column(
+            Row(
                 modifier = Modifier
-                    .weight(1.35f)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(22.dp))
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(
-                                Color(0xFF171510),
-                                Color(0xFF090909)
-                            )
-                        )
-                    )
-                    .border(
-                        1.dp,
-                        Gold.copy(alpha = 0.65f),
-                        RoundedCornerShape(22.dp)
-                    )
-                    .padding(12.dp)
+                    .fillMaxWidth()
+                    .weight(0.85f),
+                horizontalArrangement = Arrangement.spacedBy(9.dp)
             ) {
 
-                Text(
-                    "AI conversation",
-                    color = Gold,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-
-                Spacer(Modifier.height(9.dp))
+                // AI CONVERSATION
 
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .clip(RoundedCornerShape(17.dp))
-                        .background(Color(0xFF211E13))
+                        .weight(1.35f)
+                        .fillMaxHeight()
+                        .clip(RoundedCornerShape(21.dp))
+                        .background(Panel)
                         .border(
                             1.dp,
-                            DarkGold.copy(alpha = 0.7f),
-                            RoundedCornerShape(17.dp)
+                            DarkGold,
+                            RoundedCornerShape(21.dp)
                         )
-                        .padding(12.dp)
+                        .padding(11.dp)
                 ) {
+
                     Text(
-                        "AI:",
-                        color = LightGold,
+                        "AI conversation",
+                        color = Gold,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
 
+                    Spacer(Modifier.height(10.dp))
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(Color(0xFF211E14))
+                            .border(
+                                1.dp,
+                                DarkGold,
+                                RoundedCornerShape(16.dp)
+                            )
+                            .padding(12.dp)
+                    ) {
+
+                        Text(
+                            "AI:",
+                            color = BrightGold,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            "Welcome! I am your AI assistant created by Mutebi Isaac. How can I help you?",
+                            color = White,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            lineHeight = 20.sp
+                        )
+                    }
+
+                    Spacer(Modifier.height(5.dp))
+
                     Text(
-                        "Welcome! I am your AI assistant created by Mutebi Isaac. How can I help you?",
-                        color = White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        lineHeight = 21.sp
+                        "12:55 AM",
+                        color = Gold,
+                        fontSize = 12.sp
                     )
                 }
 
-                Spacer(Modifier.height(7.dp))
+                // LIVING ROOM
 
-                Text(
-                    "12:55 AM",
-                    color = Gold,
-                    fontSize = 12.sp
-                )
+                Column(
+                    modifier = Modifier
+                        .weight(0.90f)
+                        .fillMaxHeight()
+                        .clip(RoundedCornerShape(21.dp))
+                        .background(Color(0xFF19130E))
+                        .border(
+                            1.dp,
+                            Gold,
+                            RoundedCornerShape(21.dp)
+                        )
+                        .padding(7.dp),
+
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Text(
+                        "Mutebi Isaac",
+                        color = BrightGold,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(Modifier.height(6.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(Color(0xFF493522)),
+                        contentAlignment = Alignment.Center
+                    ) {
+
+                        Text(
+                            "👨🏿‍💼",
+                            fontSize = 65.sp
+                        )
+                    }
+
+                    Text(
+                        "Living Room",
+                        color = Gold,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
 
-            // ISAAC LIVING ROOM
-            Column(
+            Spacer(Modifier.height(10.dp))
+
+            // =================================
+            // SEVEN GOLD SHORTCUTS
+            // =================================
+
+            Row(
                 modifier = Modifier
-                    .weight(0.9f)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(22.dp))
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(
-                                Color(0xFF302319),
-                                Color(0xFF100D09)
-                            )
+                    .fillMaxWidth()
+                    .height(57.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                GoldIcon("👥")
+                GoldIcon("☎")
+                GoldIcon("🧭")
+                GoldIcon("◎")
+                GoldIcon("✎")
+                GoldIcon("⛵")
+                GoldIcon("℗")
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            // =================================
+            // MESSAGE INPUT AND GOLD MIC
+            // =================================
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(61.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .clip(RoundedCornerShape(35.dp))
+                        .background(Panel)
+                        .border(
+                            1.5.dp,
+                            Gold,
+                            RoundedCornerShape(35.dp)
                         )
+                        .padding(horizontal = 17.dp),
+
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Box(
+                        modifier = Modifier.weight(1f)
+                    ) {
+
+                        if (message.isEmpty()) {
+                            Text(
+                                "Type here",
+                                color = Gold,
+                                fontSize = 19.sp
+                            )
+                        }
+
+                        BasicTextField(
+                            value = message,
+                            onValueChange = { message = it },
+                            singleLine = true,
+                            textStyle = TextStyle(
+                                color = White,
+                                fontSize = 18.sp
+                            ),
+                            cursorBrush = androidx.compose.ui.graphics.SolidColor(Gold),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
+                    Text(
+                        "🎙",
+                        fontSize = 23.sp
                     )
+                }
+
+                Spacer(Modifier.width(9.dp))
+
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .background(
+                            Color(0xFFFFD777),
+                            CircleShape
+                        )
+                        .border(
+                            2.dp,
+                            BrightGold,
+                            CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Text(
+                        "🎙",
+                        fontSize = 29.sp
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(9.dp))
+
+            // =================================
+            // BOTTOM NAVIGATION
+            // =================================
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(57.dp)
+                    .clip(RoundedCornerShape(17.dp))
+                    .background(Panel)
                     .border(
                         1.dp,
-                        Gold.copy(alpha = 0.75f),
-                        RoundedCornerShape(22.dp)
-                    )
-                    .padding(7.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                        DarkGold,
+                        RoundedCornerShape(17.dp)
+                    ),
+
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                listOf(
+                    "Home",
+                    "Chart",
+                    "History",
+                    "Settings"
+                ).forEach { tab ->
+
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clickable {
+                                selectedTab = tab
+                            },
+
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+
+                        Text(
+                            when (tab) {
+                                "Home" -> "⌂"
+                                "Chart" -> "▥"
+                                "History" -> "◷"
+                                else -> "⚙"
+                            },
+                            color = if (selectedTab == tab) {
+                                BrightGold
+                            } else {
+                                Gold
+                            },
+                            fontSize = 21.sp
+                        )
+
+                        Text(
+                            tab,
+                            color = if (selectedTab == tab) {
+                                BrightGold
+                            } else {
+                                Gold
+                            },
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(5.dp))
+
+            Text(
+                "MUTEBI ISAAC AI - VERSION 1.0",
+                color = Gold,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        // =================================
+        // FULL-SCREEN WORKING SPACE DOOR
+        // =================================
+
+        if (monitorOpen) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Black)
+                    .padding(20.dp),
+
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
 
                 Text(
-                    "Mutebi Isaac",
-                    color = LightGold,
-                    fontSize = 16.sp,
+                    "★",
+                    color = BrightGold,
+                    fontSize = 55.sp
+                )
+
+                Text(
+                    "🎙",
+                    fontSize = 60.sp
+                )
+
+                Spacer(Modifier.height(15.dp))
+
+                Text(
+                    "WELCOME TO",
+                    color = Gold,
+                    fontSize = 19.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Text(
+                    "MUTEBI ISAAC AI",
+                    color = BrightGold,
+                    fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(Modifier.height(5.dp))
+                Spacer(Modifier.height(25.dp))
+
+                Text(
+                    "WORKING SPACE",
+                    color = Green,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(Modifier.height(12.dp))
+
+                Text(
+                    "Your AI Assistant is Ready",
+                    color = White,
+                    fontSize = 17.sp
+                )
+
+                Spacer(Modifier.height(35.dp))
 
                 Box(
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(15.dp))
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(
-                                    Color(0xFF59402A),
-                                    Color(0xFF21170F)
-                                )
-                            )
-                        ),
+                        .height(60.dp)
+                        .clip(RoundedCornerShape(30.dp))
+                        .background(Color(0xFFB9914B))
+                        .clickable {
+                            monitorOpen = false
+                        },
+
                     contentAlignment = Alignment.Center
                 ) {
-                    // TEMPORARY AVATAR.
-                    // Your actual Isaac picture can be added here.
 
                     Text(
-                        "👨🏿‍💼",
-                        fontSize = 66.sp
-                    )
-                }
-
-                Spacer(Modifier.height(5.dp))
-
-                Text(
-                    "Living Room",
-                    color = Gold,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
-
-        Spacer(Modifier.height(12.dp))
-
-        // =========================
-        // SEVEN GOLD SHORTCUTS
-        // =========================
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(58.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GoldIcon("👤")
-            GoldIcon("☎")
-            GoldIcon("🧭")
-            GoldIcon("◎")
-            GoldIcon("✎")
-            GoldIcon("⛵")
-            GoldIcon("℗")
-        }
-
-        Spacer(Modifier.height(12.dp))
-
-        // =========================
-        // MESSAGE INPUT AND MICROPHONES
-        // =========================
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(35.dp))
-                    .background(Color(0xFF0B0B0B))
-                    .border(
-                        1.5.dp,
-                        Brush.horizontalGradient(
-                            listOf(LightGold, DarkGold, Gold)
-                        ),
-                        RoundedCornerShape(35.dp)
-                    )
-                    .padding(horizontal = 17.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                Box(modifier = Modifier.weight(1f)) {
-                    if (text.isEmpty()) {
-                        Text(
-                            "Type here",
-                            color = Gold.copy(alpha = 0.8f),
-                            fontSize = 20.sp
-                        )
-                    }
-
-                    BasicTextField(
-                        value = text,
-                        onValueChange = { text = it },
-                        singleLine = true,
-                        textStyle = androidx.compose.ui.text.TextStyle(
-                            color = White,
-                            fontSize = 18.sp
-                        ),
-                        cursorBrush = SolidColor(Gold),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-
-                Text(
-                    "🎙",
-                    fontSize = 24.sp
-                )
-            }
-
-            Spacer(Modifier.width(9.dp))
-
-            // MAIN GOLD VOICE ORB
-            Box(
-                modifier = Modifier
-                    .size(62.dp)
-                    .shadow(12.dp, CircleShape)
-                    .background(
-                        Brush.radialGradient(
-                            listOf(
-                                Color(0xFFFFF0B5),
-                                Color(0xFFFFD66D),
-                                Color(0xFFAA7829)
-                            )
-                        ),
-                        CircleShape
-                    )
-                    .border(2.dp, LightGold, CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    "🎙",
-                    fontSize = 29.sp
-                )
-            }
-        }
-
-        Spacer(Modifier.height(10.dp))
-
-        // =========================
-        // BOTTOM NAVIGATION
-        // =========================
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(59.dp)
-                .clip(RoundedCornerShape(18.dp))
-                .background(Color(0xFF11100D))
-                .border(
-                    1.dp,
-                    Gold.copy(alpha = 0.55f),
-                    RoundedCornerShape(18.dp)
-                ),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            listOf(
-                "Home",
-                "Chart",
-                "History",
-                "Settings"
-            ).forEach { tab ->
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clickable { selectedTab = tab },
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-
-                    Text(
-                        when (tab) {
-                            "Home" -> "⌂"
-                            "Chart" -> "▥"
-                            "History" -> "◷"
-                            else -> "⚙"
-                        },
-                        color = if (selectedTab == tab) LightGold else Gold.copy(alpha = 0.65f),
-                        fontSize = 21.sp
-                    )
-
-                    Text(
-                        tab,
-                        color = if (selectedTab == tab) LightGold else Gold.copy(alpha = 0.75f),
-                        fontSize = 13.sp,
-                        fontWeight = if (selectedTab == tab) FontWeight.Bold else FontWeight.Normal
+                        "CLOSE WORKING SPACE",
+                        color = Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
         }
-
-        Spacer(Modifier.height(5.dp))
-
-        Text(
-            "MUTEBI ISAAC AI - VERSION 1.0",
-            color = Gold,
-            fontSize = 11.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
     }
 }
 
 // =================================
-// BEAUTIFUL GOLD CIRCULAR SHORTCUT
+// GOLD SHORTCUT CIRCLE
 // =================================
 
 @Composable
@@ -536,34 +645,23 @@ fun GoldIcon(emoji: String) {
 
     Box(
         modifier = Modifier
-            .size(48.dp)
-            .shadow(5.dp, CircleShape)
+            .size(46.dp)
             .background(
-                Brush.verticalGradient(
-                    listOf(
-                        Color(0xFF262015),
-                        Color(0xFF080808)
-                    )
-                ),
+                Panel,
                 CircleShape
             )
             .border(
                 1.5.dp,
-                Brush.linearGradient(
-                    listOf(
-                        LightGold,
-                        DarkGold,
-                        Gold
-                    )
-                ),
+                Gold,
                 CircleShape
             ),
+
         contentAlignment = Alignment.Center
     ) {
+
         Text(
             emoji,
-            color = LightGold,
-            fontSize = 23.sp
+            fontSize = 21.sp
         )
     }
 }
